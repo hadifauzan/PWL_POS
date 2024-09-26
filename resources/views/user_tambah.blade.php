@@ -1,6 +1,6 @@
 <body>
     <h1>Form Tambah Data User</h1>
-    <form method="post" action={{url("/user/tambah_simpan")}}>
+    <form method="post" action="{{url('/user/tambah_simpan'.$data->user_id)}}">
 
         {{ csrf_field() }}
 

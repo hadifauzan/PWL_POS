@@ -1,9 +1,9 @@
 <body>
     <h1>Form Ubah Data User</h1>
-    <a href="/user">Kembali</a>
+    <a href="{{url('/user')}}">Kembali</a>
     <br><br>
     
-    <form method="post" action="{{url("/user/ubah_simpan")}}">
+    <form method="post" action="{{url('/user/ubah_simpan/'.$data->user_id)}}">
     
         {{ csrf_field() }}
         {{ method_field('PUT') }}
