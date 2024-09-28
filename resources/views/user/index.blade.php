@@ -20,7 +20,8 @@
 					<th>ID</th>
 					<th>Username</th>
 					<th>Nama</th>
-					<th>Level Pengguna</th>
+					<th>Level
+						Pengguna</th>
 					<th>Aksi</th>
 				</tr>
 			</thead>
@@ -34,7 +35,10 @@
 			ajax: {
 				"url": "{{ url('user/list') }}",
 				"dataType": "json",
-				"type": "POST"
+				"type": "POST",
+				"data": function (d){
+					d.level_id = $('#level_id').val();
+				}
 			},
 			columns: [{ // nomor urut dari laravel datatable addIndexColumn()
 				data: "DT_RowIndex",
@@ -65,6 +69,10 @@
 				orderable: false,
 				searchable: false
 			}]
+		});
+
+		$('#level_id').on('change', function(){
+			dataUser.ajax.reload();
 		});
 	});
 </script> @endpush
