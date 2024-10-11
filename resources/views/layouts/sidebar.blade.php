@@ -68,6 +68,12 @@
                     <p>Transaksi Penjualan</p>
                 </a>
             </li>
+            <li class="nav-header">Keluar</li>
+            <li class="log-out">
+                <form action="{{ url('/logout')}}">
+                    <button type="submit" class="btn btn-block btn-danger">Log out</button>
+                </form>
+            </li>
         </ul>
     </nav>
 </div>
