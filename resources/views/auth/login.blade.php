@@ -55,6 +55,7 @@
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember">
                                 <label for="remember">Remember Me</label>
+                                <hr>
                             </div>
                         </div>
                         <!-- /.col -->
@@ -62,6 +63,9 @@
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
+                    </div>
+                    <div class="col-8">
+                        Dont have account ?<a href="{{ url('register') }}"> register</a>
                     </div>
                 </form>
             </div>

@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LevelModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller 
 {
     public function login() 
     {
+        // Jika sudah login, maka redirect ke halaman home
         if (Auth::check()) {
-            // Jika sudah login, maka redirect ke halaman home
             return redirect('/');
         }
-
         return view('auth.login');
     }
 
@@ -32,7 +34,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => 'Login Gagal'
+                'message' => 'Login Gagal',
             ]);
         }
 
@@ -44,7 +46,44 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
+        return redirect('login');
+    }
 
+    public function register()
+    {
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('auth.register')
+        ->with('level', $level);
+    }
+
+    public function store(Request $request)
+    {
+  
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'level_id'  => 'required|integer',
+                'username'  => 'required|string|min:3|unique:m_user,username',
+                'nama'      => 'required|string|max:100',
+                'password'  => 'required|min:6'
+            ];
+   
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => false, // response status, false: error/gagal, true: berhasil
+                    'message'   => 'Validasi Gagal',
+                    'msgField'  => $validator->errors(), // pesan error validasi
+                ]);
+            }
+            UserModel::create($request->all());
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Data user berhasil disimpan',
+                'redirect' => url('login')
+            ]); 
+        }
         return redirect('login');
     }
 }
