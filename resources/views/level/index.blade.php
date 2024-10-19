@@ -5,7 +5,8 @@
             <h3 class="card-title">Daftar Level</h3>
             <div class="card-tools">
                 <button onclick="modalAction('{{ url('/level/import') }}')" class="btn btn-info">Import Level</button>
-                <button onclick="modalAction('{{ url('level/export_excel') }}')" class="btn btn-success">Export Level</button>
+                <a href="{{ url('/level/export_excel') }}" class="btn btn-primary"> Export Barang</a>
+                <a href="{{ url('/level/export_pdf') }}" class="btn btn-warning"> Export Barang</a>
             </div>
         </div>
         <div class="card-body">

@@ -5,7 +5,8 @@
             <h3 class="card-title">Daftar Kategori</h3>
             <div class="card-tools">
                 <button onclick="modalAction('{{ url('kategori/import') }}')" class="btn btn-info">Import Kategori</button>
-                <button onclick="modalAction('{{ url('kategori/export_excel') }}')" class="btn btn-success">Export Data</button>
+                <a href="{{ url('/kategori/export_excel') }}" class="btn btn-primary"> Export Barang</a>
+                <a href="{{ url('/kategori/export_pdf') }}" class="btn btn-warning"> Export Barang</a>
             </div>
         </div>
         <div class="card-body">

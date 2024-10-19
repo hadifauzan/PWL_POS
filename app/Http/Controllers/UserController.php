@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -554,6 +555,18 @@ class UserController extends Controller
         // Simpan file dan kirim ke output
         $writer->save('php://output');
         exit;
+    }
+
+    public function export_pdf() {
+        // ambil data barang yang akan di export
+        $barang = UserModel::select('no', 'level_id', 'username',)
+        ->get();
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('User.export_pdf', ['user' => $barang]);
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+        $pdf->setOption("isRemoteEnable", true); // set true jika ada gambar dari url
+        $pdf->render();
+        return $pdf->stream('Data User '.date('Y-m-d H:i:s').'.pdf');
     }
 
 }
