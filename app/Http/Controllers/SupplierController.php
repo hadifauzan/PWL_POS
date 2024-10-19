@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class SupplierController extends Controller
 {
     public function index(){
@@ -284,4 +284,51 @@ class SupplierController extends Controller
         }
         return redirect('/');
     }
+
+    public function export_excel()
+    {
+        $kategori = suppliermodel::select( 'supplier_kode', 'supplier_nama', 'supplier_alamat')
+            ->get();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet(); //ambil sheet yang aktif
+        // Set Header Kolom
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'supplier_Kode');
+        $sheet->setCellValue('C1', 'supplier_Nama');
+        $sheet->setCellValue('C1', 'supplier_Alamat');
+        // Buat header menjadi bold
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true);
+        $no = 1; // Nomor data dimulai dari 1
+        $baris = 2; // Baris data dimulai dari baris ke-2
+        foreach ($kategori as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->kategori_kode);
+            $sheet->setCellValue('C' . $baris, $value->kategori_nama);
+            $sheet->setCellValue('C' . $baris, $value->kategori_nama);
+            $baris++;
+            $no++;
+        }
+        // Set ukuran kolom otomatis untuk semua kolom
+        foreach (range('A', 'F') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        // Set judul sheet
+        $sheet->setTitle('Data supplier');
+        // Buat writer
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data supplier ' . date('Y-m-d H:i:s') . '.xlsx';
+        // Atur Header untuk Download File Excel
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+        // Simpan file dan kirim ke output
+        $writer->save('php://output');
+        exit;
+    }
+
 }

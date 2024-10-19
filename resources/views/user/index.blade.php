@@ -6,7 +6,7 @@
         <h3 class="card-title">Daftar User</h3>
         <div class="card-tools">
             <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info">Import User </button>
-            <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-success">Tambah</button>
+            <button onclick="modalAction('{{ url('user/export_excel') }}')" class="btn btn-success">Export User</button>
         </div>
     </div>
     <div class="card-body">
