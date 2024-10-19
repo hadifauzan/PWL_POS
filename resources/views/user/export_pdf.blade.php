@@ -84,12 +84,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($barang as $b)
+                @foreach ($user as $u)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $b->no }}</td>
-                        <td>{{ $b->level_id }}</td>
-                        <td>{{ $b->username }}</td>
+                        <td>{{ $u->no }}</td>
+                        <td>{{ $u->level_id }}</td>
+                        <td>{{ $u->username }}</td>
                     </tr>
                 @endforeach
             </tbody>

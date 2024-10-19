@@ -329,10 +329,10 @@ class KategoriController extends Controller
 
     public function export_pdf() {
         // ambil data barang yang akan di export
-        $barang = KategoriModel::select('no', 'kategori_kode', 'kategori_nama',)
+        $kategori = KategoriModel::select( 'kategori_kode', 'kategori_nama',)
         ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
-        $pdf = Pdf::loadView('kategori.export_pdf', ['kategori' => $barang]);
+        $pdf = Pdf::loadView('kategori.export', ['kategori' => $kategori]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
         $pdf->setOption("isRemoteEnable", true); // set true jika ada gambar dari url
         $pdf->render();

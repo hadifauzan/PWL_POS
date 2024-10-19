@@ -84,11 +84,11 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($barang as $b)
+                @foreach ($level as $l)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $b->level_kode }}</td>
-                        <td>{{ $b->level_nama }}</td>
+                        <td>{{ $l->level_kode }}</td>
+                        <td>{{ $l->level_nama }}</td>
                     </tr>
                 @endforeach
             </tbody>

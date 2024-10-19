@@ -35,6 +35,14 @@
       <img src="{{asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">PWL - Starter Code</span>
     </a>
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+      <img src="1.jpeg" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+      <a href="#" class="d-block">Fauzan</a>
+      </div>
+      </div>
 
     <!-- Sidebar -->
    @include('layouts.sidebar')

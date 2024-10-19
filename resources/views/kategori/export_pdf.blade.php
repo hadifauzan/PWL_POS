@@ -84,11 +84,11 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($barang as $b)
+                @foreach ($kategori as $k)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $b->kategori_kode }}</td>
-                        <td>{{ $b->kategori_nama }}</td>
+                        <td>{{ $k->kategori_kode }}</td>
+                        <td>{{ $k->kategori_nama }}</td>
                     </tr>
                 @endforeach
             </tbody>
