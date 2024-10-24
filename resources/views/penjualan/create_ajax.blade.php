@@ -1,53 +1,40 @@
-<form action="{{ url('/stok/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/penjualan/ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Stok Barang</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Penjualan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Nama Supplier</label>
-                    <select name="supplier_id" id="supplier_id" class="form-control" required>
-                        <option value="">- Pilih Supplier -</option>
-                        @foreach($supplier as $s)
-                            <option value="{{ $s->supplier_id }}">{{ $s->supplier_nama }}</option>
+                    <label>Nama Penjual</label>
+                    <select name="penjualan_id" id="penjualan_id" class="form-control" required>
+                        <option value="">- Pilih Penjual -</option>
+                        @foreach($penjualan as $pj
+                            <option value="{{ $pj->penjualan_id }}">{{ $pj -> user ->nama }}</option>
                         @endforeach
                     </select>
-                    <small id="error-supplier_id" class="error-text form-text text-danger"></small>
+                    <small id="error-penjualan_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Nama Barang</label>
-                    <select name="barang_id" id="barang_id" class="form-control" required>
-                        <option value="">- Pilih Barang -</option>
-                        @foreach($barang as $b)
-                            <option value="{{ $b->barang_id }}">{{ $b->barang_nama }}</option>
-                        @endforeach
+                    <label>Nama Pembeli</label>
+                    <select name="pembeli" id="pembeli" class="form-control" required>
                     </select>
-                    <small id="error-barang_id" class="error-text form-text text-danger"></small>
+                    <small id="error-pembeli_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Level penggguna</label>
-                    <select name="user_id" id="user_id" class="form-control" required>
-                        <option value="">- Pilih Level Pengguna -</option>
-                        @foreach($user as $u)
-                            <option value="{{ $u->user_id }}">{{ $u->nama }}</option>
-                        @endforeach
+                    <label>Kode Penjualan</label>
+                    <select name="penjualan_kode" id="penjualan_kode" class="form-control" required>
                     </select>
-                    <small id="error-user_id" class="error-text form-text text-danger"></small>
+                    <small id="error-penjualan_kode" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Tanggal Terima</label>
-                    <input value="" type="datetime-local" name="stok_tanggal" id="stok_tanggal" class="form-control" required>
+                    <label>Tanggal Penjualan</label>
+                    <input value="" type="datetime-local" name="penjualan_tanggal" id="penjualan_tanggal" class="form-control" required>
                     <small id="error-stok_tanggal" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Total Stok</label>
-                    <input value="" type="number" name="stok_jumlah" id="stok_jumlah" class="form-control" required>
-                    <small id="error-stok_jumlah" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -62,24 +49,22 @@
     $(document).ready(function() {
         $("#form-tambah").validate({
             rules: {
-                supplier_id: {
-                    required: true,
-                    number: true
-                },
-                barang_id: {
-                    required: true,
-                    number:true
-                },
                 user_id: {
                     required: true,
                     number: true
                 },
-                stok_tanggal: {
+                pembeli: {
                     required: true,
+                    minlength: 3;
+                    maxlength: 50;
                 },
-                stok_jumlah: {
+                penjualan_kode: {
                     required: true,
-                    number: true
+                    minlength: 3;
+                    maxlength: 50;
+                },
+                penjualan_tanggal: {
+                    required: true,
                 }
             },
             submitHandler: function(form) {

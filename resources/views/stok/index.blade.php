@@ -55,7 +55,7 @@
                         <th>No</th>
                         <th>Nama Supplier</th>
                         <th>Nama Barang</th>
-                        <th>PJ</th>
+                        <th>Level Pengguna</th>
                         <th>Tanggal</th>
                         <th>Jumlah</th>
                         <th>Aksi</th>

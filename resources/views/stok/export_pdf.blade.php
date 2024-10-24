@@ -74,21 +74,27 @@
             </td>
         </tr>
     </table>
-    <h3 class="text-center">LAPORAN DATA KATEGORI</h4>
+    <h3 class="text-center">LAPORAN DATA STOK</h4>
         <table class="border-all">
             <thead>
                 <tr>
                     <th class="text-center">No</th>
-                    <th>Kategori Kode</th>
-                    <th>Kategori Nama</th>
+                    <th>Nama Supplier</th>
+                    <th>Nama Barang</th>
+                    <th>Level Pengguna</th>
+                    <th>Tanggal</th>
+                    <th>Jumlah</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($kategori as $k)
+                @foreach ($stok as $s)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $k->kategori_kode }}</td>
-                        <td>{{ $k->kategori_nama }}</td>
+                        <td>{{ $s->supplier_id }}</td>
+                        <td>{{ $s->barang_id }}</td>
+                        <td>{{ $s->user_id }}</td>
+                        <td>{{ $s->stok_tanggal }}</td>
+                        <td>{{ $s->stok_jumlah }}</td>
                     </tr>
                 @endforeach
             </tbody>

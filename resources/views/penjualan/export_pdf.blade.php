@@ -74,21 +74,27 @@
             </td>
         </tr>
     </table>
-    <h3 class="text-center">LAPORAN DATA BARANG</h4>
+    <h3 class="text-center">LAPORAN DATA STOK</h4>
         <table class="border-all">
             <thead>
                 <tr>
                     <th class="text-center">No</th>
-                    <th>Level Kode</th>
-                    <th>Level Nama</th>
+                    <th>Nama Penjual</th>
+                    <th>Nama Pengguna</th>
+                    <th>Nama Pembeli</th>
+                    <th>Kode Penjualan</th>
+                    <th>Tanggal Penjualan</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($level as $l)
+                @foreach ($penjualan as $pj)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $l->level_kode }}</td>
-                        <td>{{ $l->level_nama }}</td>
+                        <td>{{ $pj->penjualan_id }}</td>
+                        <td>{{ $pj->user_id }}</td>
+                        <td>{{ $pj->pembeli }}</td>
+                        <td>{{ $pj->penjualan_kode }}</td>
+                        <td>{{ $pj->Penjualan_tanggal }}</td>
                     </tr>
                 @endforeach
             </tbody>

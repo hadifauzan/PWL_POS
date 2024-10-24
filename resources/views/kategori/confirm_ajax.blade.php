@@ -32,14 +32,10 @@
                         Apakah Anda ingin menghapus data seperti di bawah ini?
                     </div>
                     <table class="table table-sm table-bordered table-striped">
-                        <tr>
-                            <th class="text-right col-3">Kategori kode :</th>
-                            <td class="col-9">{{ $kategori->kategori_kode }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Nama kategori :</th>
-                            <td class="col-9">{{ $kategori->kategori_nama }}</td>
-                        </tr>
+                        <tr><th class="test-right col-3">Penanggung Jawab : </th><td class="col-9">{{ $penjualan->user->nama }}</td></tr>
+                        <tr><th class="test-right col-3">Pembeli : </th><td class="col-9">{{ $penjualan->pembeli }}</td></tr>
+                        <tr><th class="test-right col-3">Kode Penjualan : </th><td class="col-9">{{ $penjualan->penjualan_kode }}</td></tr>
+                        <tr><th class="test-right col-3">Tanggal Penjualan : </th><td class="col-9">{{ $penjualan->penjualan_tanggal }}</td></tr>
                     </table>
                 </div>
                 <div class="modal-footer">
