@@ -1,84 +1,86 @@
-<form action="{{ url('/supplier/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
-    @csrf
-    <div id="modal-master" class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data Supplier</h5>
-                <button type="button" class="close" data-dismiss="modal" arialabel="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Download Template</label>
-                    <a href="{{ asset('template_supplier.xlsx') }}" class="btn btn-info btnsm" download><i
-                            class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-supplier_id" class="error-text form-text textdanger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Pilih File</label>
-                    <input type="file" name="file_supplier" id="file_supplier" class="form-control" required>
-                    <small id="error-file_supplier" class="error-text form-text textdanger"></small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btnwarning">Batal</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
+@extends('layouts.template') 
+@section('content') 
+
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+
+<div class="card card-outline card-primary">
+	<div class="card-header">
+		<h3 class="card-title">{{ $page->title }}</h3>
+		<div class="card-tools">
+            <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn  btn-info">Import Supplier</button>
+            <a href="{{ url('/supplier/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Excel</a>
+			<a href="{{ url('/supplier/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export  PDF</a>
+			<button onclick="modalAction('{{ url('/supplier/create_ajax') }}')" class="btn btn-success mt-1">Tambah Supplier</button>
         </div>
-    </div>
-</form>
+	</div>
+	<div class="card-body">
+		<div class="card-body">
+			@if (session('success'))
+				<div class="alert alert-success">{{ session('success') }}</div>
+			@endif
+			@if (session('error'))
+				<div class="alert alert-danger">{{ session('error') }}</div>
+			@endif
+		</div>
+		<table class="table table-bordered table-striped table-hover table-sm" id="table_supplier">
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Supplier Kode</th>
+					<th>Supplier Nama</th>
+					<th>Supplier Alamat</th>
+					<th>Aksi</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div> @endsection @push('css') @endpush @push('js') 
 <script>
-    $(document).ready(function() {
-        $("#form-import").validate({
-            rules: {
-                file_supplier: {
-                    required: true,
-                    extension: "xlsx"
-                },
-            },
-            submitHandler: function(form) {
-                var formData = new FormData(form); // Jadikan form ke FormData untuk menghandle file
-                $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: formData, // Data yang dikirim berupa FormData
-                    processData: false, // setting processData dan contentType ke false, untuk menghandle file
-                    contentType: false,
-                    success: function(response) {
-                        if (response.status) { // jika sukses
-                            $('#myModal').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
-                            });
-                            dataSupplier.ajax.reload(); // reload datatable
-                        } else { // jika error
-                            $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
-                        }
-                    }
-                });
-                return false;
-            },
-            errorElement: 'span',
-            errorPlacement: function(error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-            }
-        });
-    });
-</script>
+	        function modalAction(url = '') {
+            $('#myModal').load(url, function() {
+                $('#myModal').modal('show');
+            });
+        }
+        var dataSupplier;
+	$(document).ready(function() {
+		 dataSupplier = $('#table_supplier').DataTable({
+			processing: true,
+			// serverSide: true, jika ingin menggunakan server side processing
+			serverSide: true,
+			ajax: {
+				"url": "{{ url('supplier/list') }}",
+				"dataType": "json",
+				"type": "POST"
+			},
+			columns: [{ // nomor urut dari laravel datatable addIndexColumn()
+				data: "DT_RowIndex",
+				className: "text-center",
+				orderable: false,
+				searchable: false
+			}, {
+				data: "supplier_kode",
+				className: "",
+				// orderable: true, jika ingin kolom ini bisa diurutkan
+				orderable: true,
+				// searchable: true, jika ingin kolom ini bisa dicari
+				searchable: true
+			}, {
+				data: "supplier_nama",
+				className: "",
+				orderable: true,
+				searchable: true
+			}, {
+				data: "supplier_alamat",
+				className: "",
+				orderable: true,
+				searchable: true
+			}, {
+				data: "aksi",
+				className: "",
+				orderable: false,
+				searchable: false
+			}]
+		});
+	});
+</script> @endpush

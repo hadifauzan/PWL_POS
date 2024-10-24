@@ -1,53 +1,52 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable; // implementasi class Authenticatable
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserModel extends Authenticatable 
+class UserModel extends Authenticatable
 {
     use HasFactory;
 
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
-    protected $fillable = ['username', 'password', 'nama', 'level_id', 'created_at', 'updated_at'];
 
-    protected $hidden = ['password']; // jangan di tampilkan select
+    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at'];
 
-    protected $casts = ['password' => 'hashed']; //casting password agar otomatis di hash
+    protected $hidden = ['password'];
+    protected $casts = ['password' => 'hashed'];
 
-    /**
-     * Relasi ke tabel level
-     */
-    public function level(): BelongsTo
-    {
-        return $this->belongsTo(LevelModel::class,'level_id', 'level_id');
+    // protected $fillable = ['level_id', 'username', 'nama'];
+
+    public function level(): BelongsTo {
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
     }
-    /**
-    * Mendapatkan nama role
-    */
-    
+
+    public function stoks() : HasMany {
+        return $this->hasMany(StokModel::class, 'user_id', 'user_id');
+    }
+
     public function getRoleName(): string
     {
-    return $this->level->level_nama;
+        return $this->level->level_nama;
     }
 
-    /**
-    * Cek apakah user memiliki role tertentu
-    */
     public function hasRole($role): bool
     {
-    return $this->level->level_kode == $role;
+        return $this->level->level_kode == $role;
     }
 
-    
-    /**
-    * Mendapatkan kode role
-    */
     public function getRole()
     {
-    return $this->level->level_kode;
+        return $this->level->level_kode;
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(ProfileModel::class);
     }
 }
