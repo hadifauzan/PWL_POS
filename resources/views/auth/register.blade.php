@@ -22,7 +22,7 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center"><a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a></div>
             <div class="card-body">
-                <p class="login-box-msg">Sign up</p>
+                <p class="login-box-msg">Buat akun baru</p>
                 <form action="{{ url('register') }}" method="POST" id="form-register">
                     @csrf
                     <div class="form-group">
@@ -38,25 +38,25 @@
                     <div class="form-group">
                         <label>Username</label>
                         <input value="" type="text" name="username" id="username" class="form-control"
-                            required>
+                           placeholder="Masukkan Username" required>
                         <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Nama</label>
                         <input value="" type="text" name="nama" id="nama" class="form-control"
-                            required>
+                          placeholder="Masukkan Nama"  required>
                         <small id="error-nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
                         <input value="" type="password" name="password" id="password" class="form-control"
-                            required>
+                           placeholder="Masukkan password" required>
                         <small id="error-password" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="row">
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                            <button type="submit" class="btn btn-primary btn-block">Daftar</button>
                         </div>
                         <!-- /.col -->
                     </div>

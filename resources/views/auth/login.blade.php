@@ -29,7 +29,7 @@
                 <a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Masukkan username dan password</p>
                 <form action="{{ url('login') }}" method="POST" id="form-login">
                     @csrf
                     <div class="input-group mb-3">
@@ -60,12 +60,12 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
                         </div>
                         <!-- /.col -->
                     </div>
                     <div class="col-8">
-                        Dont have account ?<a href="{{ url('register') }}"> register</a>
+                        Tidak memiliki akun ?<a href="{{ url('register') }}">Daftar</a>
                     </div>
                 </form>
             </div>
