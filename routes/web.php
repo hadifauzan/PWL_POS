@@ -7,6 +7,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
@@ -182,6 +183,16 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/penjualan/export_excel', [PenjualanController::class, 'export_excel']);
         Route::get('/penjualan/export_pdf', [PenjualanController::class, 'export_pdf']);
     });
+
+    Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
+        Route::get('/detailpenjualan', [DetailPenjualanController::class, 'index']);         
+        Route::post('/detailpenjualan/list', [DetailPenjualanController::class, 'list']);
+        Route::get('/detailpenjualan/{id}/show_ajax', [DetailPenjualanController::class, 'show_ajax']);
+        Route::get('/detailpenjualan/{id}/delete_ajax', [DetailPenjualanController::class, 'confirm_ajax']);
+        Route::delete('/detailpenjualan/{id}/delete_ajax', [DetailPenjualanController::class, 'delete_ajax']);
+        Route::get('/detailpenjualan/export_excel', [DetailPenjualanController::class, 'export_excel']);
+        Route::get('/detailpenjualan/export_pdf', [DetailPenjualanController::class, 'export_pdf']);
+    });  
 });
 
 // Route::get('/', [WelcomeController::class, 'index']);
