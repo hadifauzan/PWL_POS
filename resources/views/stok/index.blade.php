@@ -5,8 +5,8 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/stok/import') }}')" class="btn btn-info"><i class="bi bi-file-earmark-excel"></i>  Import XLSX</button>
-                <a href="{{ url('/stok/export_excel') }}" class="btn btn-primary"><i class="bi bi-file-earmark-excel"></i>  Export XLSX</a>
+                <button onclick="modalAction('{{ url('/stok/import') }}')" class="btn btn-info"><i class="bi bi-file-earmark-excel"></i>  Import Stok</button>
+                <a href="{{ url('/stok/export_excel') }}" class="btn btn-primary"><i class="bi bi-file-earmark-excel"></i>  Export Excel</a>
                 <a href="{{ url('/stok/export_pdf') }}" class="btn btn-warning"><i class="bi bi-file-earmark-pdf"></i>  Export PDF</a>
                 <button onclick="modalAction('{{ url('/stok/create_ajax') }}')" class="btn btn-success"><i class="bi bi-bag-plus"></i>  Tambah Stok</button>
             </div>
@@ -24,12 +24,27 @@
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
                             <select name="supplier_id" id="supplier_id" class="form-control" required>
-                                <option value="">- Semua -</option>
+                                <option value="">- supplier -</option>
                                 @foreach ($supplier as $item)
                                     <option value="{{ $item->supplier_id }}">{{ $item->supplier_nama }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Supplier</small>
+                        </div>
+                        <div class="col-3">
+                            <select name="barang_id" id="barang_id" class="form-control" required>
+                                <option value="">- barang -</option>
+                                @foreach ($barang as $b)
+                                    <option value="{{ $b->barang_id }}">{{ $b->barang_nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select name="user_id" id="user_id" class="form-control" required>
+                                <option value="">- user -</option>
+                                @foreach ($user as $u)
+                                    <option value="{{ $u->user_id }}">{{ $u->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -40,7 +55,7 @@
                         <th>No</th>
                         <th>Nama Supplier</th>
                         <th>Nama Barang</th>
-                        <th>Nama</th>
+                        <th>PJ</th>
                         <th>Tanggal</th>
                         <th>Jumlah</th>
                         <th>Aksi</th>
@@ -89,18 +104,18 @@
                         data: "supplier.supplier_nama",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },{
                         data: "barang.barang_nama",
                         className: "",
                         orderable:false,
-                        searchable: false
+                        searchable: true
                     },{
                         // mengambil data level dari hasil ORM berelasi
                         data: "user.nama",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },{
                         data: "stok_tanggal",
                         className: "",
@@ -120,6 +135,12 @@
                 ]
             });
             $('#supplier_id').on('change', function(){
+                dataStok.ajax.reload();
+            });
+            $('#barang_id').on('change', function(){
+                dataStok.ajax.reload();
+            });
+            $('#user_id').on('change', function(){
                 dataStok.ajax.reload();
             });
         });
