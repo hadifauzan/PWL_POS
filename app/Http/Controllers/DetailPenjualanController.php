@@ -27,7 +27,7 @@ class DetailPenjualanController extends Controller
 
         $activeMenu = 'detailpenjualan';
 
-        $penjualan = PenjualanModel::all();
+        $penjualan = PenjualanDetailModel::all();
         $barang = BarangModel::all();
 
         return view('detailpenjualan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'penjualan' => $penjualan, 'barang' => $barang]);

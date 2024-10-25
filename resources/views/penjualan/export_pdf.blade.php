@@ -79,8 +79,7 @@
             <thead>
                 <tr>
                     <th class="text-center">No</th>
-                    <th>Nama Penjual</th>
-                    <th>Nama Pengguna</th>
+                    <th>User ID</th>
                     <th>Nama Pembeli</th>
                     <th>Kode Penjualan</th>
                     <th>Tanggal Penjualan</th>
@@ -90,8 +89,7 @@
                 @foreach ($penjualan as $pj)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $pj->penjualan_id }}</td>
-                        <td>{{ $pj->user_id }}</td>
+                        <td>{{ $pj->user->nama }}</td>
                         <td>{{ $pj->pembeli }}</td>
                         <td>{{ $pj->penjualan_kode }}</td>
                         <td>{{ $pj->Penjualan_tanggal }}</td>
