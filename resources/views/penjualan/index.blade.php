@@ -5,7 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info"><i class="bi bi-file-earmark-excel"></i>  Import Penjualan</button>
+                <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info"><i class="bi bi-file-earmark-excel"></i>  Import Excel</button>
                 <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-primary"><i class="bi bi-file-earmark-excel"></i>  Export Excel</a>
                 <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-warning"><i class="bi bi-file-earmark-pdf"></i>  Export PDF</a>
                 <button onclick="modalAction('{{ url('/penjualan/create_ajax') }}')" class="btn btn-success"><i class="bi bi-cart-plus"></i>  Tambah Data</button>
@@ -29,7 +29,7 @@
                                     <option value="{{ $item->user_id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Nama Pengguna</small>
+                            <small class="form-text text-muted">Penanggung Jawab</small>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <th>Pembeli</th>
                         <th>Kode Penjualan</th>
                         <th>Tanggal Penjualan</th>
-                        <th>Nama Pembeli</th>
+                        <th>Penanggung Jawab</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>

@@ -30,33 +30,30 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Nama Penjual</label>
-                        <select name="penjual_id" id="penjual_id" class="form-control" required>
-                            <option value="">- Pilih Pengguna -</option>
-                            @foreach ($penjualan as $pj)
-                                <option {{ $pj->user_id == $p->user_id ? 'selected' : '' }} value="{{ $pj->penjual_id }}">
-                                    {{ $pj->nama }}</option>
+                        <label>Penanggung Jawab</label>
+                        <select name="user_id" id="user_id" class="form-control" required>
+                            <option value="">- Pilih PJ -</option>
+                            @foreach ($user as $l)
+                                <option {{ $l->user_id == $penjualan->user_id ? 'selected' : '' }} value="{{ $l->user_id }}">
+                                    {{ $l->nama }}</option>
                             @endforeach
                         </select>
-                        <small id="error-supplier_id" class="error-text form-text textdanger"></small>
+                        <small id="error-user_id" class="error-text form-text textdanger"></small>
                     </div>
                     <div class="form-group">
                         <label>Pembeli</label>
-                        <select name="pembeli" id="pembeli" class="form-control" required>
-                        </select>
+                        <input value="{{ $penjualan->pembeli }}" type="text" name="pembeli" id="pembeli"
+                            class="form-control" required>
                         <small id="error-pembeli" class="error-text form-text textdanger"></small>
                     </div>
                     <div class="form-group">
-                        <label>Penjualan Kode/label>
-                        <select name="penjualan_kode" id="penjualan_kode" class="form-control" required>
-                            <option value="">- Pilih User -</option>
-                        </select>
-                        <small id="error-penjualan_kode" class="error-text form-text textdanger"></small>
+                        <label>Kode Penjualan</label>
+                        <input value="{{ $penjualan->penjualan_kode }}" type="text" name="penjualan_kode" id="penjualan_kode" class="form-control" required>
+                        <small id="error-penjualan_kode" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label>Penjualan Tanggal</label>
-                        <input value="{{ $pj->penjualan_tanggal }}" type="datetime-local" name="penjualan_tanggal" id="stok_tanggal"
-                            class="form-control" required>
+                        <label>Tanggal Penjualan</label>
+                        <input value="{{ $penjualan->penjualan_tanggal }}" type="datetime-local" name="penjualan_tanggal" id="penjualan_tanggal" class="form-control" required>
                         <small id="error-penjualan_tanggal" class="error-text form-text textdanger"></small>
                     </div>
                 </div>
@@ -71,24 +68,10 @@
         $(document).ready(function() {
             $("#form-edit").validate({
                 rules: {
-                    user_id: {
-                        required: true,
-                        number: true
-                    },
-                    pembeli: {
-                        required: true,
-                        minlength: 3;
-                        maxlength: 50;
-                    },
-                    penjualan_kode: {
-                        required: true,
-                        minlength: 3;
-                        maxlength: 20;
-                    },
-                    penjualan_tanggal: {
-                        required: true,
-                        number: true;
-                    },
+                    user_id: { required: true, number: true },
+                    pembeli: { required: true, minlength: 3, maxlength: 50 },
+                    penjualan_kode: { required: true, minlength: 3, maxlength: 20 },
+                    penjualan_tanggal: { required: true, number:true }
                 },
                 submitHandler: function(form) {
                     $.ajax({
@@ -103,7 +86,7 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataStok.ajax.reload();
+                                dataPenjualan.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {
@@ -133,4 +116,4 @@
             });
         });
     </script>
-    @endempty
+@endempty

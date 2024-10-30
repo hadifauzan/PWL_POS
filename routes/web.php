@@ -43,6 +43,10 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::post('update', [ProfileController::class, 'update'])->name('update');
+    Route::group(['prefix' =>'profile'],function(){
+        Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::patch('/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    });
 
     Route::middleware(['authorize:ADM'])->group(function() {
         Route::get('/user', [UserController::class, 'index']);

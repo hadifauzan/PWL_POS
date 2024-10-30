@@ -559,10 +559,10 @@ class UserController extends Controller
 
     public function export_pdf() {
         // ambil data barang yang akan di export
-        $user = UserModel::select( 'level_id', 'username',)
+        $user = UserModel::select( 'level_id', 'username', 'nama')
         ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
-        $pdf = Pdf::loadView('User.export', ['user' => $user]);
+        $pdf = Pdf::loadView('User.export_pdf', ['user' => $user]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
         $pdf->setOption("isRemoteEnable", true); // set true jika ada gambar dari url
         $pdf->render();

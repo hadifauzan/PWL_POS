@@ -1,98 +1,104 @@
 @extends('layouts.template')
 @section('content')
-<style>
-    /* Styling container profil */
-    .profile-container {
-        text-align: center;
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 400px;  /* Batas lebar maksimal container */
-        width: 100%;
-        margin: auto;  /* Mengatur agar container berada di tengah */
-    }
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-lg mb-4 bg-white position-relative">
+                    <div class="card-body text-center p-4">
+                        <div class="position-relative" style="transform: translateY(-5%); z-index: 10;">
+                            @if ($user->profile_image)
+                                <img src="{{ asset('storage/photos/' . $user->profile_image) }}"
+                                    class="img-fluid rounded-circle shadow"
+                                    style="width: 180px; height: 180px; object-fit: cover; margin-top: -75px;">
+                            @else
+                                <img src="{{ asset('/public/img/polinema-bw.png') }}"
+                                    class="img-fluid rounded-circle shadow"
+                                    style="width: 120px; height: 120px; object-fit: cover; margin-top: -60px;">
+                            @endif
+                        </div>
+                        <h5 class="fw-bold mt-5">{{ $user->nama }}</h5>
+                        <p class="text-muted mb-0">{{ $user->username }}</p>
+                    </div>
+                </div>
 
-    /* Styling gambar profil */
-    .profile-container img {
-        border-radius: 50%;
-        width: 250px;
-        height: 250px;
-        object-fit: cover;
-        margin-bottom: 20px;  /* Jarak bawah pada gambar */
-    }
+                <div class="card border-0 shadow-sm rounded-lg">
+                    <div class="card-header bg-white text-center py-4">
+                        <h5 class="mb-0 fw-bold text-dark">Edit Profil</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        @if (session('status'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
 
-    /* Styling judul profil */
-    .profile-container h3 {
-        margin-top: 10px;
-        font-size: 1.5rem;
-        color: #333;
-    }
+                        <form method="POST" action="{{ route('profile.update', $user->user_id) }}" enctype="multipart/form-data">
+                            @method('PATCH')
+                            @csrf
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="username" class="form-label">{{ __('Username') }}</label>
+                                    <input id="username" type="text"
+                                        class="form-control border-light shadow-sm @error('username') is-invalid @enderror"
+                                        name="username" value="{{ $user->username }}" required autocomplete="username">
+                                    @error('username')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
+                                <div class="col-md-6 mb-3">
+                                    <label for="nama" class="form-label">{{ __('Nama Lengkap') }}</label>
+                                    <input id="nama" type="text"
+                                        class="form-control border-light shadow-sm @error('nama') is-invalid @enderror"
+                                        name="nama" value="{{ old('nama', $user->nama) }}" required autocomplete="nama">
+                                    @error('nama')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
 
-    /* Styling input file */
-    input[type="file"] {
-        display: block;
-        width: 100%;  /* Input file memenuhi lebar container */
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #f1f1f1;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <h6 class="mb-3 text-muted">Ubah Password</h6>
+                                </div>
 
-    /* Styling list informasi profil */
-    .list-group-item {
-        border: none;
-        padding: 10px 15px;
-        font-size: 1rem;
-    }
+                                <div class="col-md-6 mb-3">
+                                    <label for="password" class="form-label">{{ __('Password Baru') }}</label>
+                                    <input id="password" type="password"
+                                        class="form-control border-light shadow-sm @error('password') is-invalid @enderror"
+                                        name="password" autocomplete="new-password">
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
 
-    /* Styling untuk tombol kembali */
-    .btn-block {
-        width: 100%;
-    }
+                            <div class="row mt-3">
+                                <div class="col-12 mb-3">
+                                    <label for="profile_image" class="form-label">{{ __('Foto Profil') }}</label>
+                                    <input id="profile_image" type="file"
+                                        class="form-control border-light shadow-sm"
+                                        name="profile_image">
+                                    <div class="form-text text-muted">Upload foto dengan format JPG, PNG, atau GIF (max. 2MB)</div>
+                                </div>
+                            </div>
 
-    .form-group {
-        text-align: left;
-    }
-
-
-</style>
-
-<div class="profile-container">
-    <!-- Menampilkan gambar profil jika tersedia -->
-    @php
-        $profilePicture = null;
-
-        if (file_exists(public_path('storage/uploads/profile_pictures/' . auth()->user()->username . '/' . auth()->user()->username . '_profile.png'))) {
-            $profilePicture = asset('storage/uploads/profile_pictures/' . auth()->user()->username . '/' . auth()->user()->username . '_profile.png');
-        } elseif (file_exists(public_path('storage/uploads/profile_pictures/' . auth()->user()->username . '/' . auth()->user()->username . '_profile.jpg'))) {
-            $profilePicture = asset('storage/uploads/profile_pictures/' . auth()->user()->username . '/' . auth()->user()->username . '_profile.jpg');
-        } elseif (file_exists(public_path('storage/uploads/profile_pictures/' . auth()->user()->username . '/' . auth()->user()->username . '_profile.jpeg'))) {
-            $profilePicture = asset('storage/uploads/profile_pictures/' . auth()->user()->username . '/' . auth()->user()->username . '_profile.jpeg');
-        }
-    @endphp
-
-    <!-- Default image jika gambar tidak ditemukan -->
-    <img src="{{ $profilePicture ?? 'https://via.placeholder.com/250' }}" alt="User profile picture">
-
-    <h3 class="profile-username">{{ auth()->user()->nama }}</h3>
-    <p class="text-muted">{{ auth()->user()->level->level_nama }}</p>
-    <hr>
-    <!-- Form untuk upload gambar profil -->
-    <form action="{{ url('update') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <input type="file" id="update" name="foto" accept="image/*">
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                <a href="{{ url('/') }}" class="btn btn-secondary btn-block"><b>Kembali</b></a>
-            </div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-primary btn-block">Simpan</button>
+                            <div class="text-end mt-4">
+                                <button type="button" class="btn btn-outline-secondary">{{ __('Batal') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Simpan Perubahan') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </form>
-</div>
+    </div>
 @endsection

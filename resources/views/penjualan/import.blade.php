@@ -12,12 +12,12 @@
                     <label>Download Template</label>
                     <a href="{{ asset('template_penjualan.xlsx') }}" class="btn btn-info btn-sm" download><i
                             class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-penjualan_id" class="error-text form-text text-danger"></small>
+                    <small id="error-user_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Pilih File</label>
                     <input type="file" name="file_penjualan" id="file_penjualan" class="form-control" required>
-                    <small id="error-file_stok" class="error-text form-text text-danger"></small>
+                    <small id="error-file_penjualan" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -49,7 +49,7 @@
                         title: 'Berhasil',
                         text: response.message
                     });
-                    tableStok.ajax.reload(); // reload datatable
+                    tablePenjualan.ajax.reload(); // reload datatable
                     }else{ // jika error
                         $('.error-text').text('');
                         $.each(response.msgField, function(prefix, val) {

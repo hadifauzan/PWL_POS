@@ -332,7 +332,7 @@ class KategoriController extends Controller
         $kategori = KategoriModel::select( 'kategori_kode', 'kategori_nama',)
         ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
-        $pdf = Pdf::loadView('kategori.export', ['kategori' => $kategori]);
+        $pdf = Pdf::loadView('kategori.export_pdf', ['kategori' => $kategori]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
         $pdf->setOption("isRemoteEnable", true); // set true jika ada gambar dari url
         $pdf->render();

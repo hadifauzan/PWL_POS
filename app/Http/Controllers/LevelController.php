@@ -352,7 +352,7 @@ class LevelController extends Controller
         $level = LevelModel::select( 'level_kode', 'level_nama',)
         ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
-        $pdf = Pdf::loadView('level.export', ['level' => $level]);
+        $pdf = Pdf::loadView('level.export_pdf', ['level' => $level]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
         $pdf->setOption("isRemoteEnable", true); // set true jika ada gambar dari url
         $pdf->render();

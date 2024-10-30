@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
-use App\Models\PenjualanDetailModel;
+use App\Models\DetailModel;
 use App\Models\PenjualanModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -27,14 +27,14 @@ class DetailPenjualanController extends Controller
 
         $activeMenu = 'detailpenjualan';
 
-        $penjualan = PenjualanDetailModel::all();
+        $penjualan = PenjualanModel::all();
         $barang = BarangModel::all();
 
         return view('detailpenjualan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'penjualan' => $penjualan, 'barang' => $barang]);
     }
 
     public function list(Request $request){
-        $detailpenjualans = PenjualanDetailModel::select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah')->with('penjualan', 'barang');
+        $detailpenjualans = DetailModel::select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah')->with('penjualan', 'barang');
 
         //Filter data user berdasarkan level_id
         if($request->penjualan_id){
@@ -57,14 +57,14 @@ class DetailPenjualanController extends Controller
 
     public function show_ajax(string $id) 
     {
-        $detailpenjualan = PenjualanDetailModel::find($id);
+        $detailpenjualan = DetailModel::find($id);
 
         return view('detailpenjualan.show_ajax', ['detailpenjualan' => $detailpenjualan]);
     }
 
     public function confirm_ajax(string $id)
     {
-        $detailpenjualan = PenjualanDetailModel::find($id);
+        $detailpenjualan = DetailModel::find($id);
 
         return view('detailpenjualan.confirm_ajax', ['detailpenjualan' => $detailpenjualan]);
     }
@@ -72,7 +72,7 @@ class DetailPenjualanController extends Controller
     public function delete_ajax(Request $request, $id) 
     {
         if ($request->ajax() || $request->wantsJson()) {
-            $detailpenjualan = PenjualanDetailModel::find($id);
+            $detailpenjualan = DetailModel::find($id);
             if ($detailpenjualan) {
                 $detailpenjualan->delete();
                 return response()->json([
@@ -92,7 +92,7 @@ class DetailPenjualanController extends Controller
     public function export_excel()
     {
         // Ambil data barang yang akan diexport
-        $detailpenjualan = PenjualanDetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+        $detailpenjualan = DetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
             ->orderBy('penjualan_id')
             ->orderBy('barang_id')
             ->with('penjualan', 'barang')
@@ -145,7 +145,7 @@ class DetailPenjualanController extends Controller
 
     public function export_pdf()
     {
-        $detailpenjualan = PenjualanDetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+        $detailpenjualan = DetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
             ->orderBy('penjualan_id')
             ->orderBy('barang_id')
             ->orderBy('detail_id')

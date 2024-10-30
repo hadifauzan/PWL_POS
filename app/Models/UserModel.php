@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Schema\Blueprint;
+use illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
@@ -15,7 +17,7 @@ class UserModel extends Authenticatable
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
 
-    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at'];
+    protected $fillable = ['level_id', 'profile_image', 'username', 'nama', 'password', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
     protected $casts = ['password' => 'hashed'];
@@ -28,6 +30,10 @@ class UserModel extends Authenticatable
 
     public function stoks() : HasMany {
         return $this->hasMany(StokModel::class, 'user_id', 'user_id');
+    }
+
+    public function penjualans() : HasMany {
+        return $this->hasMany(PenjualanModel::class, 'penjualan_id', 'penjualan_id');
     }
 
     public function getRoleName(): string
@@ -45,8 +51,19 @@ class UserModel extends Authenticatable
         return $this->level->level_kode;
     }
 
-    public function profile()
-    {
-        return $this->hasOne(ProfileModel::class);
-    }
+    public function up()
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->string('profile_image')->nullable();
+    });
+}
+
+public function down()
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->dropColumn('profile_image');
+    });
+}
+
+
 }

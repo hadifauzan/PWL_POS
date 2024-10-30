@@ -24,9 +24,10 @@
                             <select name="penjualan_id" id="penjualan_id" class="form-control" required>
                                 <option value="">- Semua -</option>
                                 @foreach ($penjualan as $item)
-                                    <option value="{{ $item->penjualan->penjualan_id }}">{{ $item->penjualan->penjualan_id}}</option>
+                                    <option value="{{ $item->penjualan_id }}">{{ $item->penjualan_nama }}</option>
                                 @endforeach
                             </select>
+                            <small class="form-text text-muted">Level Pengguna</small>
                         </div>
                     </div>
                 </div>
